@@ -1,0 +1,63 @@
+{
+    "name": "unlab/livewire-table-kit",
+    "description": "Reusable Livewire table component kit with search, filters, sorting, pagination, actions, and CSV/XLSX/PDF export.",
+    "type": "library",
+    "license": "MIT",
+    "keywords": [
+        "laravel",
+        "livewire",
+        "table",
+        "datatable",
+        "flux",
+        "export",
+        "csv",
+        "xlsx",
+        "pdf"
+    ],
+    "homepage": "https://github.com/unlab/livewire-table-kit",
+    "support": {
+        "issues": "https://github.com/unlab/livewire-table-kit/issues",
+        "source": "https://github.com/unlab/livewire-table-kit"
+    },
+    "authors": [
+        {
+            "name": "Unlab",
+            "email": "hello@unlab.dev"
+        }
+    ],
+    "require": {
+        "php": "^8.4",
+        "barryvdh/laravel-dompdf": "^3.1",
+        "laravel/framework": "^13.0",
+        "livewire/flux": "^2.12.0",
+        "livewire/livewire": "^4.1",
+        "maatwebsite/excel": "^3.1"
+    },
+    "require-dev": {
+        "orchestra/testbench": "^11.0",
+        "pestphp/pest": "^4.0",
+        "phpunit/phpunit": "^12.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Unlab\\LivewireTableKit\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Unlab\\LivewireTableKit\\Tests\\": "tests/"
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-main": "1.x-dev"
+        },
+        "laravel": {
+            "providers": [
+                "Unlab\\LivewireTableKit\\LivewireTableKitServiceProvider"
+            ]
+        }
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true
+}
