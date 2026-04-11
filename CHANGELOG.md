@@ -1,0 +1,34 @@
+# Changelog
+
+All notable changes to `unlab/livewire-table-kit` will be documented in this file.
+
+The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and this project aims to follow [Semantic Versioning](https://semver.org/).
+
+## [Unreleased]
+
+### Added
+
+- Livewire table base component with search, filters, sorting, pagination, and row actions.
+- Bulk delete support with selectable rows and event-driven confirmation flow.
+- Optional export support for CSV, XLSX, and PDF.
+- Custom export columns, export filename hooks, and PDF layout hooks.
+- Package service provider with view loading and publishable views.
+- Package README with installation and usage examples.
+- Package license, publish metadata, and baseline package test.
+
+## [1.0.0] - 2026-04-11
+
+### Added
+
+- Initial public release of the reusable Livewire table kit.
+- `BaseTable` abstraction for reusable data tables.
+- `Column`, `BadgeColumn`, `ActionColumn`, `TableAction`, and `Filter` helpers.
+- Package views for the table shell, empty state, action dropdown, badge rendering, pagination, and PDF export.
+- CSV, XLSX, and PDF export support.
+- Package discovery via Laravel service provider registration.
+
+### Notes
+
+- This release is intended for Laravel 13 and Livewire 4.
+- PDF export uses DomPDF.
+- Spreadsheet export uses Maatwebsite Excel.
