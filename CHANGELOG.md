@@ -6,6 +6,8 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 
 ## [Unreleased]
 
+## [1.2.0] - 2026-04-12
+
 ### Added
 
 - Added `livewire-table-kit:make-table` and `make:livewire-table` commands to scaffold table components from Eloquent models.
