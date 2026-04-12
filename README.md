@@ -22,6 +22,61 @@ composer require unlab/livewire-table-kit
 php artisan vendor:publish --tag=livewire-table-kit-views
 ```
 
+## Publish config and MCP assets
+
+```bash
+php artisan vendor:publish --tag=livewire-table-kit-config
+php artisan vendor:publish --tag=livewire-table-kit-mcp
+php artisan vendor:publish --tag=livewire-table-kit-stubs
+php artisan vendor:publish --tag=livewire-table-kit-lang
+```
+
+## Install MCP AI skills
+
+If you want to use the package MCP server from an AI client, install the local `.mcp` config file:
+
+```bash
+php artisan livewire-table-kit:install-mcp
+```
+
+That command creates `.mcp/livewire-table-kit.json` with a `php artisan livewire-table-kit:mcp` server entry.
+
+## Generate a table component
+
+Use the package generator command to scaffold a table component from an Eloquent model:
+
+```bash
+php artisan livewire-table-kit:make-table App\\Models\\User UsersTable
+```
+
+You can also use the alias:
+
+```bash
+php artisan make:livewire-table App\\Models\\User UsersTable
+```
+
+If you already have a table name and want the command to infer the model, pass only the table name:
+
+```bash
+php artisan make:livewire-table UsersTable --model-namespace=App\\Models
+```
+
+Options:
+
+- `--path=` to change the output directory
+- `--namespace=` to change the generated namespace
+- `--model-namespace=` to change the namespace used for model inference
+- `--force` to overwrite an existing file
+
+By default the command writes to a path derived from the namespace, so `App\Livewire\Tables` maps to `app/Livewire/Tables`.
+
+The generator uses basic schema heuristics:
+
+- string-like columns become searchable and sortable
+- numeric/date/boolean columns become sortable
+- status-like and active-like columns become badge columns
+- sensitive fields like passwords and tokens are skipped
+
 ## Structure
 
 - `src/Livewire/Components/Tables/BaseTable.php`
@@ -287,6 +342,17 @@ Common view paths:
 - Flux UI 2
 - Maatwebsite Excel
 - barryvdh/laravel-dompdf
+
+## MCP
+
+The package includes a small MCP server command at `livewire-table-kit:mcp` for scaffolding table classes from an Eloquent model.
+
+The server currently exposes:
+
+- `livewire_table_generate`
+- `livewire_table_schema`
+
+The schema text is stored in `docs/mcp-schema.md` and is also used as a fallback if the file is unavailable at runtime.
 
 ## Official Reference
 
