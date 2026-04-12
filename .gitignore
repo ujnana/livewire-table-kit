@@ -1,3 +1,64 @@
+# ==============================================
+# STANDARD GITIGNORE FOR LARAVEL PACKAGE
+# ==============================================
+
+# Dependencies
 vendor/
+node_modules/
+composer.lock
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# IDE & Editor
 .idea/
+.vscode/
+*.sublime-project
+*.sublime-workspace
+.project
+.settings/
+*.swp
+*.swo
+*~
+
+# Operating System
 .DS_Store
+Thumbs.db
+desktop.ini
+
+# Testing & Coverage
+.phpunit.cache
+.phpunit.result.cache
+coverage/
+.clover
+.php-cs-fixer.cache
+.phpstan-cache
+psalm.xml
+
+# Build & Temporary
+build/
+dist/
+*.log
+*.tmp
+*.bak
+*.cache
+storage/
+bootstrap/cache/
+
+# Pest & PHPUnit
+pest.xml
+phpunit.xml
+
+# Laravel Package Specific
+composer.phar
+auth.json
+.phpunit.result.cache
+
+# OS Generated files
+*.orig
+*.rej
+
+# Export temporary files
+*.csv
+*.xlsx
+*.pdf
