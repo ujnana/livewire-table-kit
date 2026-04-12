@@ -6,8 +6,16 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 
 ## [Unreleased]
 
+## [1.1.0] - 2026-04-12
+
 ### Added
 
+- ✅ **Native AI Skills support via MCP Protocol**
+- Added `livewire-table-kit:mcp` command as MCP Server
+- Added `livewire-table-kit:install-mcp` interactive command for optional AI Skill installation
+- Added configuration file with all default table settings
+- Added publish tags: config, views, mcp, stubs, lang
+- Added standard Laravel package .gitignore rules
 - Livewire table base component with search, filters, sorting, pagination, and row actions.
 - Bulk delete support with selectable rows and event-driven confirmation flow.
 - Optional export support for CSV, XLSX, and PDF.
