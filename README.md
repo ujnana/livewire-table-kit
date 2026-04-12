@@ -41,6 +41,49 @@ php artisan livewire-table-kit:install-mcp
 
 That command creates `.mcp/livewire-table-kit.json` with a `php artisan livewire-table-kit:mcp` server entry.
 
+## Install Codex skill manually
+
+This package does not automatically install the Codex skill into your local Codex home directory.
+If you want Codex to recognize the package workflow as a skill, create a skill folder in your local Codex skills directory and add the skill files there.
+
+Default location:
+
+```bash
+~/.codex/skills/livewire-table-kit
+```
+
+Recommended files:
+
+- `SKILL.md`
+- `agents/openai.yaml`
+- any optional `references/` or `assets/` files used by the skill
+
+Example install flow:
+
+```bash
+mkdir -p ~/.codex/skills/livewire-table-kit/agents
+```
+
+Then copy the skill files into that directory and restart Codex so the skill is detected.
+
+If `CODEX_HOME` is set, use `$CODEX_HOME/skills/livewire-table-kit` instead of `~/.codex/skills/livewire-table-kit`.
+
+## Laravel Boost and other AI assistants
+
+This package also ships a Boost-compatible skill at `resources/boost/skills/livewire-table-kit/SKILL.md`.
+That matches the package skill layout used by Laravel Boost for third-party packages, so Boost-style AI workflows can pick it up from the package itself.
+Laravel Boost documents this package-skill layout in its official docs: https://laravel.com/docs/master/boost
+
+If you use Laravel Boost in a Laravel app, install Boost and then run:
+
+```bash
+composer require laravel/boost --dev
+php artisan boost:install
+```
+
+For other AI assistants with their own skill directories, copy the same skill content into that assistant's expected location.
+Keep the package source, docs, changelog, and tests in sync regardless of which assistant you use.
+
 ## Generate a table component
 
 Use the package generator command to scaffold a table component from an Eloquent model:

@@ -6,6 +6,11 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 
 ## [Unreleased]
 
+### Added
+
+- Added a Boost-compatible package skill for Laravel Boost and similar AI assistant workflows.
+- Added a package-local skill layout under `resources/boost/skills/livewire-table-kit`.
+
 ## [1.2.0] - 2026-04-12
 
 ### Added
