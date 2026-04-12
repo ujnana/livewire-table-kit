@@ -1,0 +1,12 @@
+{
+    "mcpServers": {
+        "livewire-table-kit": {
+            "command": "php",
+            "args": [
+                "artisan",
+                "livewire-table-kit:mcp"
+            ],
+            "cwd": "{{ base_path }}"
+        }
+    }
+}

@@ -10,13 +10,9 @@ class LivewireTableKitServiceProvider extends ServiceProvider
 {
     public function register(): void
     {
-        //
-    }
-
-    public function register(): void
-    {
         if ($this->app->runningInConsole()) {
             $this->commands([
+                \Unlab\LivewireTableKit\Console\Commands\MakeTableCommand::class,
                 \Unlab\LivewireTableKit\Console\Commands\McpServerCommand::class,
                 \Unlab\LivewireTableKit\Console\Commands\InstallMcpCommand::class,
             ]);

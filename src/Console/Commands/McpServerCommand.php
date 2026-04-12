@@ -3,8 +3,6 @@
 namespace Unlab\LivewireTableKit\Console\Commands;
 
 use Illuminate\Console\Command;
-use Illuminate\Contracts\Console\Kernel;
-use Illuminate\Foundation\Application;
 
 class McpServerCommand extends Command
 {
@@ -162,7 +160,27 @@ PHP;
 
     protected function getSchema(): string
     {
-        return file_get_contents(__DIR__ . '/../../../docs/mcp-schema.md');
+        $schemaPath = __DIR__.'/../../../docs/mcp-schema.md';
+
+        if (is_file($schemaPath)) {
+            $schema = file_get_contents($schemaPath);
+
+            if ($schema !== false) {
+                return $schema;
+            }
+        }
+
+        return <<<'MD'
+# Livewire Table Kit MCP Schema
+
+The MCP server exposes two tools:
+
+- `livewire_table_generate`
+- `livewire_table_schema`
+
+Use `livewire_table_generate` to scaffold a Livewire table class from an Eloquent model.
+Use `livewire_table_schema` to inspect the schema documentation for the package.
+MD;
     }
 
     protected function respondJson(array $data): void

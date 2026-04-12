@@ -1,0 +1,26 @@
+<?php
+
+declare(strict_types=1);
+
+namespace {{ namespace }};
+
+use Illuminate\Database\Eloquent\Builder;
+use Unlab\LivewireTableKit\Livewire\Components\Tables\BaseTable;
+use Unlab\LivewireTableKit\Livewire\Components\Tables\Columns\BadgeColumn;
+use Unlab\LivewireTableKit\Livewire\Components\Tables\Columns\Column;
+use {{ model }};
+
+class {{ class }} extends BaseTable
+{
+    public function query(): Builder
+    {
+        return {{ model_basename }}::query();
+    }
+
+    public function columns(): array
+    {
+        return [
+{{ columns }}
+        ];
+    }
+}
