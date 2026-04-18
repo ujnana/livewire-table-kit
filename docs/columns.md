@@ -34,6 +34,7 @@ Used for plain text or simple HTML columns.
 - `->align(string $alignment)`: Set alignment (`left`, `center`, `right`).
 - `->html()`: Treat the value as raw HTML.
 - `->view(string $view)`: Use a custom Blade view.
+- `->hiddenOn(string $breakpoint)`: Hide the column on specific breakpoints (`sm`, `md`, `lg`).
 
 ### 2. `BadgeColumn`
 

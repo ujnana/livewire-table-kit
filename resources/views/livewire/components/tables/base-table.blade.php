@@ -6,11 +6,17 @@
         'center' => 'text-center',
         'right' => 'text-right',
     ];
+
+    $responsiveClasses = [
+        'sm' => 'hidden sm:table-cell',
+        'md' => 'hidden md:table-cell',
+        'lg' => 'hidden lg:table-cell',
+    ];
 @endphp
 
 <div class="space-y-4">
     <div class="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
-        <div class="grid flex-1 gap-3 md:grid-cols-2 xl:grid-cols-5">
+        <div class="grid w-full grid-cols-1 gap-3 sm:grid-cols-2 lg:flex-1 xl:grid-cols-5">
             @foreach ($availableFilters as $filter)
                 <flux:field wire:key="filter-{{ $filter->key }}">
                     @if($filter->label)
@@ -37,35 +43,38 @@
             @endforeach
         </div>
 
-        <div class="flex flex-wrap items-center justify-end gap-3">
-            @if ($this->supportsExport())
-                <flux:dropdown align="end">
-                    <flux:button size="sm" variant="outline" icon="arrow-down-tray">
-                        Export
+        <div class="flex flex-wrap items-center justify-between gap-3 sm:justify-end">
+            <div class="flex items-center gap-3">
+                @if ($this->supportsExport())
+                    <flux:dropdown align="end">
+                        <flux:button size="sm" variant="outline" icon="arrow-down-tray">
+                            <span class="hidden sm:inline">Export</span>
+                        </flux:button>
+
+                        <flux:menu>
+                            <flux:menu.item as="button" type="button" wire:click="exportCsv">
+                                CSV
+                            </flux:menu.item>
+                            <flux:menu.item as="button" type="button" wire:click="exportXlsx">
+                                XLSX
+                            </flux:menu.item>
+                            <flux:menu.item as="button" type="button" wire:click="exportPdf">
+                                PDF
+                            </flux:menu.item>
+                        </flux:menu>
+                    </flux:dropdown>
+                @endif
+
+                @if ($this->supportsBulkDelete() && $selected !== [])
+                    <flux:button size="sm" variant="danger" wire:click="bulkDelete">
+                        <span class="sm:hidden">Delete ({{ count($selected) }})</span>
+                        <span class="hidden sm:inline">Delete Selected ({{ count($selected) }})</span>
                     </flux:button>
-
-                    <flux:menu>
-                        <flux:menu.item as="button" type="button" wire:click="exportCsv">
-                            CSV
-                        </flux:menu.item>
-                        <flux:menu.item as="button" type="button" wire:click="exportXlsx">
-                            XLSX
-                        </flux:menu.item>
-                        <flux:menu.item as="button" type="button" wire:click="exportPdf">
-                            PDF
-                        </flux:menu.item>
-                    </flux:menu>
-                </flux:dropdown>
-            @endif
-
-            @if ($this->supportsBulkDelete() && $selected !== [])
-                <flux:button size="sm" variant="danger" wire:click="bulkDelete">
-                    Delete Selected ({{ count($selected) }})
-                </flux:button>
-            @endif
+                @endif
+            </div>
 
             @if ($this->hasSearch())
-                <flux:field>
+                <flux:field class="w-full sm:w-auto">
                     <flux:input size="sm" icon="magnifying-glass" wire:model.live.debounce.300ms="search"
                                 placeholder="Search table data..."/>
                 </flux:field>
@@ -93,9 +102,10 @@
                             $headerAlignment = $alignmentClasses[$column->headerAlignment] ?? 'text-left';
                             $resolvedSortField = $column->sortField ?? $column->field;
                             $isActionColumn = $column instanceof ActionColumn;
+                            $responsiveClass = $column->hiddenOn ? ($responsiveClasses[$column->hiddenOn] ?? '') : '';
                         @endphp
 
-                        <th class="px-4 py-3 whitespace-nowrap {{ $headerAlignment }} {{ $isActionColumn ? 'sticky right-0 z-10 bg-zinc-50 dark:bg-zinc-900' : '' }}">
+                        <th class="px-4 py-3 whitespace-nowrap {{ $headerAlignment }} {{ $isActionColumn ? 'sticky right-0 z-10 bg-zinc-50 dark:bg-zinc-900' : '' }} {{ $responsiveClass }}">
                             @if ($column->sortable && $resolvedSortField)
                                 <button
                                         type="button"
@@ -135,9 +145,10 @@
                                 $alignment = $alignmentClasses[$column->alignment] ?? 'text-left';
                                 $value = $this->resolveColumnValue($row, $column);
                                 $isActionColumn = $column instanceof ActionColumn;
+                                $responsiveClass = $column->hiddenOn ? ($responsiveClasses[$column->hiddenOn] ?? '') : '';
                             @endphp
 
-                            <td class="px-4 py-3 align-center whitespace-nowrap text-sm text-zinc-700 dark:text-zinc-300 {{ $alignment }} {{ $isActionColumn ? 'sticky right-0 z-10 bg-white dark:bg-zinc-900' : '' }}">
+                            <td class="px-4 py-3 align-center whitespace-nowrap text-sm text-zinc-700 dark:text-zinc-300 {{ $alignment }} {{ $isActionColumn ? 'sticky right-0 z-10 bg-white dark:bg-zinc-900' : '' }} {{ $responsiveClass }}">
                                 @if ($isActionColumn)
                                     @include($column->view, ['row' => $row, 'column' => $column, 'value' => $value])
                                 @elseif ($column->view)
@@ -162,19 +173,27 @@
         </div>
     </div>
 
-    <div class="flex justify-between items-center">
-        <div class="flex gap-3 items-center">
-            <flux:text class="text-sm">Show</flux:text>
-            <flux:field class="w-[4.5rem]">
-                <flux:select size="xs" wire:model.live="perPage">
-                    @foreach ($perPageOptions as $option)
-                        <option value="{{ $option }}">{{ $option === 'all' ? 'All' : $option }}</option>
-                    @endforeach
-                </flux:select>
-            </flux:field>
-            <flux:text class="text-sm">Entries</flux:text>
+    <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+        <div class="flex items-center justify-between gap-3 sm:justify-start">
+            <div class="flex items-center gap-2">
+                <flux:text class="text-xs sm:text-sm">Show</flux:text>
+                <flux:field class="w-[4rem] sm:w-[4.5rem]">
+                    <flux:select size="xs" wire:model.live="perPage">
+                        @foreach ($perPageOptions as $option)
+                            <option value="{{ $option }}">{{ $option === 'all' ? 'All' : $option }}</option>
+                        @endforeach
+                    </flux:select>
+                </flux:field>
+                <flux:text class="text-xs sm:text-sm">Entries</flux:text>
+            </div>
+
+            <flux:text class="text-xs text-zinc-500 sm:hidden">
+                Page {{ $rows->currentPage() }} of {{ $rows->lastPage() }}
+            </flux:text>
         </div>
 
-        {{ $rows->links($paginationView) }}
+        <div class="w-full sm:w-auto">
+            {{ $rows->links($paginationView) }}
+        </div>
     </div>
 </div>

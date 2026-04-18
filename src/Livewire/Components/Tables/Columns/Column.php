@@ -23,6 +23,8 @@ class Column
 
     public bool $exportable = true;
 
+    public ?string $hiddenOn = null; // sm, md, lg
+
     public string $alignment = 'left';
 
     public string $headerAlignment = 'left';
@@ -129,6 +131,13 @@ class Column
     public function exportable(bool $exportable = true): static
     {
         $this->exportable = $exportable;
+
+        return $this;
+    }
+
+    public function hiddenOn(string $breakpoint): static
+    {
+        $this->hiddenOn = $breakpoint;
 
         return $this;
     }
