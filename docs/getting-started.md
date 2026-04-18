@@ -12,16 +12,36 @@ composer require unlab/livewire-table-kit
 
 ## Setup
 
-### 1. Publish Assets
+### 1. Tailwind Configuration
 
-You should publish the configuration and view files to customize the behavior and appearance:
+Because this package uses Tailwind CSS, you need to tell your host application's Tailwind configuration to scan the package's views for classes. Add the package path to the `content` array in your `tailwind.config.js`:
+
+```javascript
+export default {
+    content: [
+        // ... your other paths
+        './vendor/unlab/livewire-table-kit/resources/views/**/*.blade.php',
+    ],
+    // ...
+}
+```
+
+After updating the config, run your build process:
+
+```bash
+npm run build
+```
+
+### 2. Publish Assets (Optional)
+
+You should publish the configuration and view files if you need to customize the behavior or appearance:
 
 ```bash
 php artisan vendor:publish --tag=livewire-table-kit-config
 php artisan vendor:publish --tag=livewire-table-kit-views
 ```
 
-### 2. Generate Your First Table
+### 3. Generate Your First Table
 
 The quickest way to get started is by using the built-in generator. Provide an Eloquent model and a name for your table component:
 

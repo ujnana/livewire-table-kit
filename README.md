@@ -27,13 +27,25 @@ composer require unlab/livewire-table-kit
 
 ## Setup
 
-### Publish views
+### 1. Tailwind Configuration
+
+Add the package path to your `tailwind.config.js` to ensure styles are compiled:
+
+```javascript
+content: [
+    './vendor/unlab/livewire-table-kit/resources/views/**/*.blade.php',
+],
+```
+
+Then run: `npm run build`
+
+### 2. Publish views (Optional)
 
 ```bash
 php artisan vendor:publish --tag=livewire-table-kit-views
 ```
 
-### Publish config and MCP assets
+### 3. Publish config and MCP assets (Optional)
 
 ```bash
 php artisan vendor:publish --tag=livewire-table-kit-config
