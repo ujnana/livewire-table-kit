@@ -44,14 +44,14 @@
         </div>
 
         <div class="flex w-full flex-col gap-3 lg:w-auto lg:flex-row lg:items-center lg:justify-end">
-            @if ($this->hasSearch())
-                <flux:field class="w-full lg:w-80">
-                    <flux:input size="sm" icon="magnifying-glass" wire:model.live.debounce.300ms="search"
-                                placeholder="Search table data..."/>
-                </flux:field>
-            @endif
+            <div class="flex w-full items-center gap-2 lg:w-auto">
+                @if ($this->hasSearch())
+                    <flux:field class="flex-1 lg:w-80 lg:flex-none">
+                        <flux:input size="sm" icon="magnifying-glass" wire:model.live.debounce.300ms="search"
+                                    placeholder="Search table data..."/>
+                    </flux:field>
+                @endif
 
-            <div class="flex items-center justify-between gap-3 lg:justify-end">
                 @if ($this->supportsExport())
                     <flux:dropdown align="end">
                         <flux:button size="sm" variant="outline" icon="arrow-down-tray">
@@ -71,14 +71,14 @@
                         </flux:menu>
                     </flux:dropdown>
                 @endif
-
-                @if ($this->supportsBulkDelete() && $selected !== [])
-                    <flux:button size="sm" variant="danger" wire:click="bulkDelete">
-                        <span class="sm:hidden">Delete ({{ count($selected) }})</span>
-                        <span class="hidden sm:inline">Delete Selected ({{ count($selected) }})</span>
-                    </flux:button>
-                @endif
             </div>
+
+            @if ($this->supportsBulkDelete() && $selected !== [])
+                <flux:button size="sm" variant="danger" wire:click="bulkDelete" class="w-full lg:w-auto">
+                    <span class="lg:hidden">Delete ({{ count($selected) }})</span>
+                    <span class="hidden lg:inline">Delete Selected ({{ count($selected) }})</span>
+                </flux:button>
+            @endif
         </div>
     </div>
 
