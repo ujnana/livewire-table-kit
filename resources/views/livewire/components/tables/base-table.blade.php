@@ -173,26 +173,28 @@
         </div>
     </div>
 
-    <div class="flex flex-col gap-4 px-1 sm:flex-row sm:items-center sm:justify-between">
-        <div class="flex flex-col gap-2 sm:flex-row sm:items-center sm:gap-3">
+    <div class="flex flex-col gap-4 px-1 sm:grid sm:grid-cols-3 sm:items-center">
+        <!-- Per Page (Left) -->
+        <div class="flex items-center gap-2">
+            <flux:text class="text-xs text-zinc-500 sm:text-sm">Per page</flux:text>
+            <flux:field class="w-[4rem] sm:w-[4.5rem]">
+                <flux:select size="xs" wire:model.live="perPage">
+                    @foreach ($perPageOptions as $option)
+                        <flux:select.option value="{{ $option }}">{{ $option === 'all' ? 'All' : $option }}</flux:select.option>
+                    @endforeach
+                </flux:select>
+            </flux:field>
+        </div>
+
+        <!-- Showing Info (Center) -->
+        <div class="flex justify-center">
             <flux:text class="text-xs text-zinc-500 sm:text-sm">
                 Showing <b>{{ $rows->firstItem() ?? 0 }}</b> to <b>{{ $rows->lastItem() ?? 0 }}</b> of <b>{{ $rows->total() }}</b> entries
             </flux:text>
-
-            <div class="flex items-center gap-2">
-                <div class="hidden h-4 w-px bg-zinc-200 dark:bg-zinc-700 sm:block"></div>
-                <flux:text class="text-xs text-zinc-500 sm:text-sm">Per page</flux:text>
-                <flux:field class="w-[4rem] sm:w-[4.5rem]">
-                    <flux:select size="xs" wire:model.live="perPage">
-                        @foreach ($perPageOptions as $option)
-                            <flux:select.option value="{{ $option }}">{{ $option === 'all' ? 'All' : $option }}</flux:select.option>
-                        @endforeach
-                    </flux:select>
-                </flux:field>
-            </div>
         </div>
 
-        <div class="w-full sm:w-auto">
+        <!-- Pagination (Right) -->
+        <div class="flex w-full justify-center sm:w-auto sm:justify-end">
             {{ $rows->links($paginationView) }}
         </div>
     </div>
