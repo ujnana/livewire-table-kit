@@ -4,13 +4,21 @@ All notable changes to `unlab/livewire-table-kit` will be documented in this fil
 
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and this project aims to follow [Semantic Versioning](https://semver.org/).
 
-## [Unreleased]
+## [1.3.0] - 2026-04-18
 
 ### Added
+- **Comprehensive Documentation**: Added a full documentation suite in the `docs/` folder covering Getting Started, Columns, Filters, Actions, Exports, and MCP.
+- **Tailwind CSS v4 Support**: Added documentation for Tailwind v4 integration using the `@source` directive in CSS.
+- **Responsive Columns**: Added `Column::hiddenOn($breakpoint)` method to hide specific columns on `sm`, `md`, or `lg` screens.
 
-- Added a Boost-compatible package skill for Laravel Boost and similar AI assistant workflows.
-- Added a package-local skill layout under `resources/boost/skills/livewire-table-kit`.
-- Added `livewire-table-kit:install-skill` to install the skill files into Codex and project-local AI skill directories.
+### Improved
+- **Mobile UI & Responsiveness**: 
+    - Optimized header layout for mobile portrait (grouped search and export).
+    - Refined footer layout with a responsive grid (Per Page left, Showing info center, Pagination right).
+    - Fixed pagination button sizes for better mobile fit.
+- **Horizontal Scrolling**: Added `whitespace-nowrap` and `sticky` positioning for Bulk Selection (left) and Action columns (right) to maintain context during horizontal scroll.
+- **Informative Footer**: Added "Showing X to Y of Z entries" text to the footer for better data context.
+- **AI Developer Experience**: Enhanced the package AI Skill (`SKILL.md`) with senior engineer workflows and technical architecture details.
 
 ## [1.2.0] - 2026-04-12
 
