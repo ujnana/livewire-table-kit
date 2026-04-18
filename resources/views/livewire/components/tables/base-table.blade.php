@@ -77,7 +77,7 @@
         <div class="overflow-x-auto">
             <table class="min-w-full divide-y divide-zinc-200 dark:divide-zinc-800">
                 <thead class="bg-zinc-50 dark:bg-zinc-900/60">
-                <tr class="text-xs uppercase tracking-wide text-zinc-500 dark:text-zinc-400">
+                <tr class="text-xs tracking-wide text-zinc-500 dark:text-zinc-400">
                     @if ($this->supportsBulkDelete())
                         <th class="w-12 px-4 py-3 text-left">
                             <input
