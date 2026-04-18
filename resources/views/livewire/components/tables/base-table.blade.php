@@ -43,12 +43,19 @@
             @endforeach
         </div>
 
-        <div class="flex flex-wrap items-center justify-between gap-3 sm:justify-end">
-            <div class="flex items-center gap-3">
+        <div class="flex w-full flex-col gap-3 lg:w-auto lg:flex-row lg:items-center lg:justify-end">
+            @if ($this->hasSearch())
+                <flux:field class="w-full lg:w-80">
+                    <flux:input size="sm" icon="magnifying-glass" wire:model.live.debounce.300ms="search"
+                                placeholder="Search table data..."/>
+                </flux:field>
+            @endif
+
+            <div class="flex items-center justify-between gap-3 lg:justify-end">
                 @if ($this->supportsExport())
                     <flux:dropdown align="end">
                         <flux:button size="sm" variant="outline" icon="arrow-down-tray">
-                            <span class="hidden sm:inline">Export</span>
+                            Export
                         </flux:button>
 
                         <flux:menu>
@@ -72,13 +79,6 @@
                     </flux:button>
                 @endif
             </div>
-
-            @if ($this->hasSearch())
-                <flux:field class="w-full sm:w-auto">
-                    <flux:input size="sm" icon="magnifying-glass" wire:model.live.debounce.300ms="search"
-                                placeholder="Search table data..."/>
-                </flux:field>
-            @endif
         </div>
     </div>
 
