@@ -79,7 +79,7 @@
                 <thead class="bg-zinc-50 dark:bg-zinc-900/60">
                 <tr class="text-xs tracking-wide text-zinc-500 dark:text-zinc-400">
                     @if ($this->supportsBulkDelete())
-                        <th class="w-12 px-4 py-3 text-left">
+                        <th class="sticky left-0 z-10 w-12 bg-zinc-50 px-4 py-3 text-left dark:bg-zinc-900">
                             <input
                                     type="checkbox"
                                     wire:model.live="selectAllPage"
@@ -92,9 +92,10 @@
                         @php
                             $headerAlignment = $alignmentClasses[$column->headerAlignment] ?? 'text-left';
                             $resolvedSortField = $column->sortField ?? $column->field;
+                            $isActionColumn = $column instanceof ActionColumn;
                         @endphp
 
-                        <th class="px-4 py-3 {{ $headerAlignment }}">
+                        <th class="px-4 py-3 whitespace-nowrap {{ $headerAlignment }} {{ $isActionColumn ? 'sticky right-0 z-10 bg-zinc-50 dark:bg-zinc-900' : '' }}">
                             @if ($column->sortable && $resolvedSortField)
                                 <button
                                         type="button"
@@ -119,7 +120,7 @@
                 @forelse ($rows as $row)
                     <tr wire:key="table-row-{{ $this->resolveRowKey($row) }}" class="bg-white dark:bg-zinc-900">
                         @if ($this->supportsBulkDelete())
-                            <td class="px-4 py-3 align-center">
+                            <td class="sticky left-0 z-10 bg-white px-4 py-3 align-center dark:bg-zinc-900">
                                 <input
                                         type="checkbox"
                                         value="{{ $this->resolveRowKey($row) }}"
@@ -133,10 +134,11 @@
                             @php
                                 $alignment = $alignmentClasses[$column->alignment] ?? 'text-left';
                                 $value = $this->resolveColumnValue($row, $column);
+                                $isActionColumn = $column instanceof ActionColumn;
                             @endphp
 
-                            <td class="px-4 py-3 align-center text-sm text-zinc-700 dark:text-zinc-300 {{ $alignment }}">
-                                @if ($column instanceof ActionColumn)
+                            <td class="px-4 py-3 align-center whitespace-nowrap text-sm text-zinc-700 dark:text-zinc-300 {{ $alignment }} {{ $isActionColumn ? 'sticky right-0 z-10 bg-white dark:bg-zinc-900' : '' }}">
+                                @if ($isActionColumn)
                                     @include($column->view, ['row' => $row, 'column' => $column, 'value' => $value])
                                 @elseif ($column->view)
                                     @include($column->view, ['row' => $row, 'column' => $column, 'value' => $value])
