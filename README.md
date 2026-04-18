@@ -29,8 +29,14 @@ composer require unlab/livewire-table-kit
 
 ### 1. Tailwind Configuration
 
-Add the package path to your `tailwind.config.js` to ensure styles are compiled:
+Add the package path to your Tailwind configuration to ensure styles are compiled.
 
+**For Tailwind v4 (app.css):**
+```css
+@source "../../vendor/unlab/livewire-table-kit/resources/views/**/*.blade.php";
+```
+
+**For Tailwind v3 (tailwind.config.js):**
 ```javascript
 content: [
     './vendor/unlab/livewire-table-kit/resources/views/**/*.blade.php',

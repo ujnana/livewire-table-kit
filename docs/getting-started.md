@@ -14,7 +14,20 @@ composer require unlab/livewire-table-kit
 
 ### 1. Tailwind Configuration
 
-Because this package uses Tailwind CSS, you need to tell your host application's Tailwind configuration to scan the package's views for classes. Add the package path to the `content` array in your `tailwind.config.js`:
+Because this package uses Tailwind CSS, you need to tell your host application's Tailwind configuration to scan the package's views for classes. If you don't do this, the UI might look unstyled.
+
+#### For Tailwind CSS v4 (CSS-first)
+Add the `@source` directive to your main CSS file (e.g., `resources/css/app.css`):
+
+```css
+@import "tailwindcss";
+
+/* Scan the package views */
+@source "../../vendor/unlab/livewire-table-kit/resources/views/**/*.blade.php";
+```
+
+#### For Tailwind CSS v3
+Add the package path to the `content` array in your `tailwind.config.js`:
 
 ```javascript
 export default {
