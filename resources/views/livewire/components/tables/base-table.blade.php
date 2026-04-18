@@ -173,27 +173,27 @@
         </div>
     </div>
 
-    <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-        <div class="flex items-center justify-between gap-3 sm:justify-start">
+    <div class="flex flex-col gap-4 px-1 sm:flex-row sm:items-center sm:justify-between">
+        <div class="flex flex-col gap-2 sm:flex-row sm:items-center sm:gap-3">
+            <flux:text class="text-xs text-zinc-500 sm:text-sm">
+                Showing <b>{{ $rows->firstItem() ?? 0 }}</b> to <b>{{ $rows->lastItem() ?? 0 }}</b> of <b>{{ $rows->total() }}</b> entries
+            </flux:text>
+
             <div class="flex items-center gap-2">
-                <flux:text class="text-xs sm:text-sm">Show</flux:text>
+                <div class="hidden h-4 w-px bg-zinc-200 dark:bg-zinc-700 sm:block"></div>
+                <flux:text class="text-xs text-zinc-500 sm:text-sm">Per page</flux:text>
                 <flux:field class="w-[4rem] sm:w-[4.5rem]">
                     <flux:select size="xs" wire:model.live="perPage">
                         @foreach ($perPageOptions as $option)
-                            <option value="{{ $option }}">{{ $option === 'all' ? 'All' : $option }}</option>
+                            <flux:select.option value="{{ $option }}">{{ $option === 'all' ? 'All' : $option }}</flux:select.option>
                         @endforeach
                     </flux:select>
                 </flux:field>
-                <flux:text class="text-xs sm:text-sm">Entries</flux:text>
             </div>
-
-            <flux:text class="text-xs text-zinc-500 sm:hidden">
-                Page {{ $rows->currentPage() }} of {{ $rows->lastPage() }}
-            </flux:text>
         </div>
 
         <div class="w-full sm:w-auto">
             {{ $rows->links($paginationView) }}
         </div>
     </div>
-</div>
+    </div>
