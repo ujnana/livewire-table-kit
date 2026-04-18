@@ -1,7 +1,7 @@
 interface:
   display_name: "Livewire Table Kit"
-  short_description: "Package workflow for table kit"
-  default_prompt: "Use $livewire-table-kit to update the Unlab Livewire Table Kit package, keeping generator commands, docs, changelog, and tests in sync."
+  short_description: "Senior engineer workflow for table kit development, generator logic, AI skills, and documentation."
+  default_prompt: "Use $livewire-table-kit to develop the Unlab Livewire Table Kit package. Keep BaseTable logic, generator commands, Flux UI views, MCP server, documentation, and Pest tests in sync."
 
 policy:
   allow_implicit_invocation: true
