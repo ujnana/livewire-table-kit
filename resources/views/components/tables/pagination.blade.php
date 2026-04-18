@@ -4,9 +4,9 @@
     <nav role="navigation" aria-label="Pagination Navigation" class="flex items-center justify-center gap-2">
         <!-- Previous Button -->
         @if ($paginator->onFirstPage())
-            <flux:button disabled>Previous</flux:button>
+            <flux:button size="sm" disabled>Previous</flux:button>
         @else
-            <flux:button wire:click="previousPage" wire:loading.attr="disabled" rel="prev">
+            <flux:button size="sm" wire:click="previousPage" wire:loading.attr="disabled" rel="prev">
                 Previous
             </flux:button>
         @endif
@@ -15,7 +15,7 @@
         <flux:button.group>
             @if($paginator->lastPage() <= 7)
                 @for($page = 1; $page <= $paginator->lastPage(); $page++)
-                    <flux:button
+                    <flux:button size="sm"
                         wire:click="gotoPage({{ $page }})"
                         :variant="$page == $paginator->currentPage() ? 'primary' : 'filled'"
                     >
@@ -24,7 +24,7 @@
                 @endfor
             @else
                 <!-- First Page -->
-                <flux:button
+                <flux:button size="sm"
                     wire:click="gotoPage(1)"
                     :variant="1 == $paginator->currentPage() ? 'primary' : 'filled'"
                 >
@@ -32,7 +32,7 @@
                 </flux:button>
 
                 @if($paginator->currentPage() > 3)
-                    <flux:button variant="filled" disabled>
+                    <flux:button size="sm" variant="filled" disabled>
                         ...
                     </flux:button>
                 @endif
@@ -43,7 +43,7 @@
                 @endphp
 
                 @for($page = $start; $page <= $end; $page++)
-                    <flux:button
+                    <flux:button size="sm"
                         wire:click="gotoPage({{ $page }})"
                         :variant="$page == $paginator->currentPage() ? 'primary' : 'filled'"
                     >
@@ -52,14 +52,14 @@
                 @endfor
 
                 @if($paginator->currentPage() < $paginator->lastPage() - 2)
-                    <flux:button variant="filled" disabled>
+                    <flux:button size="sm" variant="filled" disabled>
                         ...
                     </flux:button>
                 @endif
 
                 <!-- Last Page -->
                 @if($paginator->lastPage() > 1)
-                    <flux:button
+                    <flux:button size="sm"
                         wire:click="gotoPage({{ $paginator->lastPage() }})"
                         :variant="$paginator->lastPage() == $paginator->currentPage() ? 'primary' : 'filled'"
                     >
@@ -71,9 +71,9 @@
 
         <!-- Next Button -->
         @if ($paginator->onLastPage())
-            <flux:button disabled>Next</flux:button>
+            <flux:button size="sm" disabled>Next</flux:button>
         @else
-            <flux:button wire:click="nextPage" wire:loading.attr="disabled" rel="next">
+            <flux:button size="sm" wire:click="nextPage" wire:loading.attr="disabled" rel="next">
                 Next
             </flux:button>
         @endif
