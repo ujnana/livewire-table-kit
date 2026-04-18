@@ -174,28 +174,31 @@
     </div>
 
     <div class="flex flex-col gap-4 px-1 sm:grid sm:grid-cols-3 sm:items-center">
-        <!-- Per Page (Left) -->
-        <div class="flex items-center gap-2">
-            <flux:text class="text-xs text-zinc-500 sm:text-sm">Per page</flux:text>
-            <flux:field class="w-[4rem] sm:w-[4.5rem]">
-                <flux:select size="xs" wire:model.live="perPage">
-                    @foreach ($perPageOptions as $option)
-                        <flux:select.option value="{{ $option }}">{{ $option === 'all' ? 'All' : $option }}</flux:select.option>
-                    @endforeach
-                </flux:select>
-            </flux:field>
+        <!-- Top Row (Mobile) / Left & Center (Desktop) -->
+        <div class="flex items-center justify-between sm:contents">
+            <!-- Per Page (Left) -->
+            <div class="flex items-center gap-2">
+                <flux:text class="text-xs text-zinc-500 sm:text-sm">Per page</flux:text>
+                <flux:field class="w-[4rem] sm:w-[4.5rem]">
+                    <flux:select size="xs" wire:model.live="perPage">
+                        @foreach ($perPageOptions as $option)
+                            <flux:select.option value="{{ $option }}">{{ $option === 'all' ? 'All' : $option }}</flux:select.option>
+                        @endforeach
+                    </flux:select>
+                </flux:field>
+            </div>
+
+            <!-- Showing Info (Mobile: Right / Desktop: Center) -->
+            <div class="flex justify-end sm:justify-center">
+                <flux:text class="text-xs text-zinc-500 sm:text-sm">
+                    Showing <b>{{ $rows->firstItem() ?? 0 }}</b> to <b>{{ $rows->lastItem() ?? 0 }}</b> of <b>{{ $rows->total() }}</b> entries
+                </flux:text>
+            </div>
         </div>
 
-        <!-- Showing Info (Center) -->
-        <div class="flex justify-center">
-            <flux:text class="text-xs text-zinc-500 sm:text-sm">
-                Showing <b>{{ $rows->firstItem() ?? 0 }}</b> to <b>{{ $rows->lastItem() ?? 0 }}</b> of <b>{{ $rows->total() }}</b> entries
-            </flux:text>
-        </div>
-
-        <!-- Pagination (Right) -->
+        <!-- Pagination (Mobile: Next Row / Desktop: Right) -->
         <div class="flex w-full justify-center sm:w-auto sm:justify-end">
             {{ $rows->links($paginationView) }}
         </div>
     </div>
-    </div>
+</div>
