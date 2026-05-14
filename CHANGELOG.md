@@ -4,7 +4,7 @@ All notable changes to `unlab/livewire-table-kit` will be documented in this fil
 
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and this project aims to follow [Semantic Versioning](https://semver.org/).
 
-## [Unreleased]
+## [1.3.2] - 2026-05-14
 
 ### Added
 - **Radio Filters**: Added `Filter::radio()` as a first-class filter type for mutually exclusive options, alongside the existing select, text, date, and number filters.
