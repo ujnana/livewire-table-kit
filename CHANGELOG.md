@@ -4,6 +4,16 @@ All notable changes to `unlab/livewire-table-kit` will be documented in this fil
 
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and this project aims to follow [Semantic Versioning](https://semver.org/).
 
+## [1.3.3] - 2026-05-15
+
+### Added
+- **Configurable Filter Toolbar Modes**: Added `filterToolbarMode()` so tables can render filters inline or collapse them into a single `Filters` trigger when the toolbar would become crowded.
+
+### Improved
+- **Filter Presentation Controls**: Added `display('inline'|'dropdown')` support on filters so option-based inputs can choose their toolbar presentation independently of query behavior.
+- **Multi-select Filter UX**: Checkbox filters now default to dropdown presentation and support reset flows more cleanly through the shared toolbar behavior.
+- **Package Guidance**: Updated `README.md`, `docs/filters.md`, and the packaged AI skill to document toolbar modes, display modes, and current filter behavior.
+
 ## [1.3.2] - 2026-05-14
 
 ### Added
