@@ -8,7 +8,7 @@ it('creates a radio filter helper with the expected type and options', function 
     $filter = Filter::radio('status', 'Status', [
         'active' => 'Active',
         'inactive' => 'Inactive',
-    ])->default('active')->placeholder('All statuses');
+    ])->default('active')->placeholder('All statuses')->display('dropdown');
 
     expect($filter->key)->toBe('status');
     expect($filter->label)->toBe('Status');
@@ -19,6 +19,7 @@ it('creates a radio filter helper with the expected type and options', function 
     ]);
     expect($filter->default)->toBe('active');
     expect($filter->placeholder)->toBe('All statuses');
+    expect($filter->display)->toBe('dropdown');
 });
 
 it('creates a checkbox filter helper with the expected type and options', function (): void {
@@ -37,4 +38,5 @@ it('creates a checkbox filter helper with the expected type and options', functi
         'inactive' => 'Inactive',
     ]);
     expect($filter->default)->toBe(['active', 'pending']);
+    expect($filter->display)->toBe('dropdown');
 });

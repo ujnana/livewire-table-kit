@@ -115,6 +115,11 @@ abstract class BaseTable extends Component
         return false;
     }
 
+    protected function filterToolbarMode(): string
+    {
+        return 'inline';
+    }
+
     protected function defaultSortField(): ?string
     {
         return null;
@@ -183,6 +188,14 @@ abstract class BaseTable extends Component
 
     public function updatedFilters(): void
     {
+        $this->resetPage();
+        $this->clearSelected();
+    }
+
+    public function clearFilters(): void
+    {
+        $this->filters = [];
+        $this->initializeFilters();
         $this->resetPage();
         $this->clearSelected();
     }
@@ -349,6 +362,7 @@ abstract class BaseTable extends Component
             'rows' => $rows,
             'columns' => $this->columns(),
             'availableFilters' => $this->filters(),
+            'filterToolbarMode' => $this->filterToolbarMode(),
             'perPageOptions' => $this->perPageOptions(),
             'emptyState' => $this->emptyState(),
             'emptyStateView' => $this->emptyStateView,

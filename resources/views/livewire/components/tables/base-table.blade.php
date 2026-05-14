@@ -1,4 +1,5 @@
 @php
+    use Illuminate\Support\Str;
     use Unlab\LivewireTableKit\Livewire\Components\Tables\Columns\ActionColumn;
 
     $alignmentClasses = [
@@ -12,79 +13,210 @@
         'md' => 'hidden md:table-cell',
         'lg' => 'hidden lg:table-cell',
     ];
+
+    $activeFilterCount = collect($filters)->filter(static function (mixed $value): bool {
+        if (is_array($value)) {
+            return $value !== [];
+        }
+
+        return $value !== null && $value !== '';
+    })->count();
+
+    $toolbarMode = $filterToolbarMode ?? 'inline';
 @endphp
 
 <div class="space-y-4">
     <div class="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
-        <div class="grid w-full grid-cols-1 gap-3 sm:grid-cols-2 lg:flex-1 xl:grid-cols-5">
-            @foreach ($availableFilters as $filter)
-                <flux:field wire:key="filter-{{ $filter->key }}">
-                    @if($filter->label)
-                        <flux:label>{{ $filter->label }}</flux:label>
-                    @endif
-
-                    @if ($filter->type === 'select')
-                        <flux:select size="sm" placeholder="{{ $filter->placeholder ?? 'Select' }}"
-                                     wire:model.live="filters.{{ $filter->key }}">
-                            <flux:select.option
-                                    value="">{{ $filter->placeholder !== '' ? 'Semua '.$filter->placeholder : 'All' }}</flux:select.option>
-                            @foreach ($filter->options as $value => $label)
-                                <flux:select.option value="{{ $value }}">{{ $label }}</flux:select.option>
-                            @endforeach
-                        </flux:select>
-                    @elseif ($filter->type === 'radio')
-                        <flux:radio.group wire:model.live="filters.{{ $filter->key }}" class="gap-2">
-                            <flux:radio value="" label="{{ $filter->placeholder !== '' ? $filter->placeholder : 'All' }}" />
-                            @foreach ($filter->options as $value => $label)
-                                <flux:radio value="{{ $value }}" label="{{ $label }}" />
-                            @endforeach
-                        </flux:radio.group>
-                    @elseif ($filter->type === 'checkbox')
-                        <flux:checkbox.group wire:model.live="filters.{{ $filter->key }}" class="flex-col gap-2">
-                            @foreach ($filter->options as $value => $label)
-                                <flux:checkbox value="{{ $value }}" label="{{ $label }}" />
-                            @endforeach
-                        </flux:checkbox.group>
-                    @else
-                        <flux:input size="sm"
-                                    :type="$filter->type"
-                                    wire:model.live.debounce.300ms="filters.{{ $filter->key }}"
-                                    :placeholder="$filter->placeholder"
-                        />
-                    @endif
-                </flux:field>
-            @endforeach
-        </div>
-
         <div class="flex w-full flex-col gap-3 lg:w-auto lg:flex-row lg:items-center lg:justify-end">
-            <div class="flex w-full items-center gap-2 lg:w-auto">
-                @if ($this->hasSearch())
-                    <flux:field class="flex-1 lg:w-80 lg:flex-none">
-                        <flux:input size="sm" icon="magnifying-glass" wire:model.live.debounce.300ms="search"
-                                    placeholder="Search table data..."/>
-                    </flux:field>
-                @endif
-
-                @if ($this->supportsExport())
-                    <flux:dropdown align="end">
-                        <flux:button size="sm" variant="outline" icon="arrow-down-tray">
-                            Export
+            @if ($availableFilters !== [])
+                @if ($toolbarMode === 'dropdown')
+                    <div x-data="{ openFilters: false }" class="relative">
+                        <flux:button
+                            size="sm"
+                            variant="outline"
+                            icon="funnel"
+                            icon:trailing="chevron-down"
+                            x-on:click="openFilters = ! openFilters"
+                        >
+                            <span>Filters</span>
+                            @if ($activeFilterCount > 0)
+                                <span class="ml-2 rounded-full bg-zinc-900 px-1.5 py-0.5 text-[10px] font-semibold leading-none text-white dark:bg-white dark:text-zinc-900">
+                                    {{ $activeFilterCount }}
+                                </span>
+                            @endif
                         </flux:button>
 
-                        <flux:menu>
-                            <flux:menu.item as="button" type="button" wire:click="exportCsv">
-                                CSV
-                            </flux:menu.item>
-                            <flux:menu.item as="button" type="button" wire:click="exportXlsx">
-                                XLSX
-                            </flux:menu.item>
-                            <flux:menu.item as="button" type="button" wire:click="exportPdf">
-                                PDF
-                            </flux:menu.item>
-                        </flux:menu>
-                    </flux:dropdown>
+                        <div
+                            x-cloak
+                            x-show="openFilters"
+                            x-transition.origin.top.left
+                            x-on:click.outside="openFilters = false"
+                            class="absolute left-0 z-30 mt-2 w-[min(56rem,calc(100vw-2rem))] rounded-xl border border-zinc-200 bg-white p-3 shadow-lg dark:border-zinc-700 dark:bg-zinc-800"
+                        >
+                            <div class="grid gap-3 sm:grid-cols-2 lg:grid-cols-3 sm:items-start">
+                                @foreach ($availableFilters as $filter)
+                                    <flux:field wire:key="filter-dropdown-{{ $filter->key }}" class="min-w-0">
+                                        <flux:label>{{ $filter->label ?? Str::headline($filter->key) }}</flux:label>
+
+                                        @if ($filter->type === 'select')
+                                            <flux:select size="sm" placeholder="{{ $filter->placeholder ?? 'Select' }}"
+                                                        wire:model.live="filters.{{ $filter->key }}">
+                                                <flux:select.option
+                                                        value="">{{ $filter->placeholder !== '' ? 'Semua '.$filter->placeholder : 'All' }}</flux:select.option>
+                                                @foreach ($filter->options as $value => $label)
+                                                    <flux:select.option value="{{ $value }}">{{ $label }}</flux:select.option>
+                                                @endforeach
+                                            </flux:select>
+                                        @elseif ($filter->type === 'radio')
+                                            <flux:radio.group wire:model.live="filters.{{ $filter->key }}" class="gap-2">
+                                                <flux:radio value="" label="{{ $filter->placeholder !== '' ? $filter->placeholder : 'All' }}" />
+                                                @foreach ($filter->options as $value => $label)
+                                                    <flux:radio value="{{ $value }}" label="{{ $label }}" />
+                                                @endforeach
+                                            </flux:radio.group>
+                                        @elseif ($filter->type === 'checkbox')
+                                            <flux:checkbox.group wire:model.live="filters.{{ $filter->key }}" class="flex-col gap-2">
+                                                @foreach ($filter->options as $value => $label)
+                                                    <flux:checkbox value="{{ $value }}" label="{{ $label }}" />
+                                                @endforeach
+                                            </flux:checkbox.group>
+                                        @else
+                                            <flux:input size="sm"
+                                                        :type="$filter->type"
+                                                        wire:model.live.debounce.300ms="filters.{{ $filter->key }}"
+                                                        :placeholder="$filter->placeholder"
+                                            />
+                                        @endif
+                                    </flux:field>
+                                @endforeach
+
+                                <div class="flex justify-between gap-2 pt-1 sm:col-span-2 lg:col-span-3">
+                                    @if ($activeFilterCount > 0)
+                                        <flux:button size="sm" variant="ghost" wire:click="clearFilters">
+                                            Reset Filters
+                                        </flux:button>
+                                    @else
+                                        <span></span>
+                                    @endif
+
+                                    <flux:button size="sm" variant="primary" x-on:click="openFilters = false">
+                                        Selesai
+                                    </flux:button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                @else
+                    <div class="flex flex-wrap items-start gap-3">
+                        @foreach ($availableFilters as $filter)
+                            <flux:field wire:key="filter-{{ $filter->key }}" class="w-full min-w-0 sm:w-[calc(50%-0.375rem)] lg:w-auto lg:min-w-[13rem] lg:max-w-[18rem]">
+                                @php
+                                    $displayMode = $filter->display ?? ($filter->type === 'checkbox' ? 'dropdown' : 'inline');
+                                    $buttonLabel = $filter->label ?? Str::headline($filter->key);
+                                    $selectedValues = $filters[$filter->key] ?? null;
+                                    $selectedCount = is_array($selectedValues) ? count($selectedValues) : 0;
+                                @endphp
+
+                                @if($filter->label && $displayMode !== 'dropdown')
+                                    <flux:label>{{ $filter->label }}</flux:label>
+                                @endif
+
+                                @if ($displayMode === 'dropdown' && in_array($filter->type, ['radio', 'checkbox'], true))
+                                    <flux:dropdown position="bottom" align="start">
+                                        <flux:button size="sm" variant="outline" icon="funnel" icon:trailing="chevron-down" class="w-full min-w-0 justify-between">
+                                            <span class="truncate">{{ $buttonLabel }}</span>
+                                            @if ($selectedCount > 0)
+                                                <span class="ml-2 shrink-0 text-xs text-zinc-500">{{ $selectedCount }} selected</span>
+                                            @endif
+                                        </flux:button>
+
+                                        <flux:menu class="min-w-64">
+                                            @if ($filter->type === 'radio')
+                                                <flux:menu.radio.group wire:model.live="filters.{{ $filter->key }}">
+                                                    <flux:menu.radio value="">
+                                                        {{ $filter->placeholder !== '' ? $filter->placeholder : 'All' }}
+                                                    </flux:menu.radio>
+                                                    @foreach ($filter->options as $value => $label)
+                                                        <flux:menu.radio value="{{ $value }}">{{ $label }}</flux:menu.radio>
+                                                    @endforeach
+                                                </flux:menu.radio.group>
+                                            @elseif ($filter->type === 'checkbox')
+                                                <flux:menu.checkbox.group wire:model.live="filters.{{ $filter->key }}">
+                                                    @foreach ($filter->options as $value => $label)
+                                                        <flux:menu.checkbox value="{{ $value }}">{{ $label }}</flux:menu.checkbox>
+                                                    @endforeach
+                                                </flux:menu.checkbox.group>
+                                            @endif
+                                        </flux:menu>
+                                    </flux:dropdown>
+                                @elseif ($filter->type === 'select')
+                                    <flux:select size="sm" placeholder="{{ $filter->placeholder ?? 'Select' }}"
+                                                wire:model.live="filters.{{ $filter->key }}">
+                                        <flux:select.option
+                                                value="">{{ $filter->placeholder !== '' ? 'Semua '.$filter->placeholder : 'All' }}</flux:select.option>
+                                        @foreach ($filter->options as $value => $label)
+                                            <flux:select.option value="{{ $value }}">{{ $label }}</flux:select.option>
+                                        @endforeach
+                                    </flux:select>
+                                @elseif ($filter->type === 'radio')
+                                    <flux:radio.group wire:model.live="filters.{{ $filter->key }}" class="gap-2">
+                                        <flux:radio value="" label="{{ $filter->placeholder !== '' ? $filter->placeholder : 'All' }}" />
+                                        @foreach ($filter->options as $value => $label)
+                                            <flux:radio value="{{ $value }}" label="{{ $label }}" />
+                                        @endforeach
+                                    </flux:radio.group>
+                                @elseif ($filter->type === 'checkbox')
+                                    <flux:checkbox.group wire:model.live="filters.{{ $filter->key }}" class="flex-col gap-2">
+                                        @foreach ($filter->options as $value => $label)
+                                            <flux:checkbox value="{{ $value }}" label="{{ $label }}" />
+                                        @endforeach
+                                    </flux:checkbox.group>
+                                @else
+                                    <flux:input size="sm"
+                                                :type="$filter->type"
+                                                wire:model.live.debounce.300ms="filters.{{ $filter->key }}"
+                                                :placeholder="$filter->placeholder"
+                                    />
+                                @endif
+                            </flux:field>
+                        @endforeach
+                    </div>
+
+                    @if ($activeFilterCount > 0)
+                        <flux:button size="sm" variant="ghost" wire:click="clearFilters">
+                            Reset Filters
+                        </flux:button>
+                    @endif
                 @endif
-            </div>
+            @endif
+        </div>
+        <div class="flex w-full flex-col gap-3 lg:w-auto lg:flex-row lg:items-center lg:justify-end">
+            @if ($this->hasSearch())
+                <flux:field class="flex-1 lg:w-80 lg:flex-none">
+                    <flux:input size="sm" icon="magnifying-glass" wire:model.live.debounce.300ms="search"
+                                placeholder="Search table data..."/>
+                </flux:field>
+            @endif
+
+            @if ($this->supportsExport())
+                <flux:dropdown align="end">
+                    <flux:button size="sm" variant="outline" icon="arrow-down-tray">
+                        Export
+                    </flux:button>
+
+                    <flux:menu>
+                        <flux:menu.item as="button" type="button" wire:click="exportCsv">
+                            CSV
+                        </flux:menu.item>
+                        <flux:menu.item as="button" type="button" wire:click="exportXlsx">
+                            XLSX
+                        </flux:menu.item>
+                        <flux:menu.item as="button" type="button" wire:click="exportPdf">
+                            PDF
+                        </flux:menu.item>
+                    </flux:menu>
+                </flux:dropdown>
+            @endif
 
             @if ($this->supportsBulkDelete() && $selected !== [])
                 <flux:button size="sm" variant="danger" wire:click="bulkDelete" class="w-full lg:w-auto">

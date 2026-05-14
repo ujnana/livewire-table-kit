@@ -52,7 +52,7 @@ Filter::radio('status', 'Status', [
 
 ### 4. `Filter::checkbox(key, label, options)`
 
-Creates a checkbox group for multi-select filters.
+Creates a multi-select checkbox filter. In the default table UI, it is rendered inside a dropdown trigger to keep the filter toolbar compact.
 
 ```php
 Filter::checkbox('status', 'Statuses', [
@@ -108,6 +108,45 @@ You can set a default value for a filter:
 Filter::select('status', 'Status', [...])
     ->default('active')
 ```
+
+### Display Mode
+
+You can control how option-based filters are rendered in the toolbar:
+
+```php
+Filter::radio('status', 'Status', [
+    'active' => 'Active',
+    'inactive' => 'Inactive',
+])->display('dropdown')
+```
+
+Supported display modes:
+
+- `inline`: Render the filter directly in the toolbar.
+- `dropdown`: Render the filter behind a dropdown trigger.
+
+By default:
+
+- `checkbox` filters use `dropdown`
+- other filters use `inline`
+
+### Toolbar Mode
+
+You can also control the filter toolbar at the table level:
+
+```php
+protected function filterToolbarMode(): string
+{
+    return 'dropdown';
+}
+```
+
+Supported toolbar modes:
+
+- `inline`: Render filters directly in the toolbar.
+- `dropdown`: Render all filters inside one `Filters` dropdown trigger.
+
+Use `dropdown` when a table has many filters or wide option lists that would otherwise crowd the toolbar.
 
 ### Placeholder
 

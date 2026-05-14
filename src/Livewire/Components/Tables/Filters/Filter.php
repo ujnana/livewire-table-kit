@@ -12,6 +12,7 @@ class Filter
         public string $key,
         public ?string $label = null,
         public string $type = 'select', // select, radio, checkbox, text, date, number
+        public string $display = 'inline', // inline, dropdown
         public array $options = [],
         public mixed $default = null,
         public string $placeholder = '',
@@ -33,6 +34,13 @@ class Filter
     public function options(array $options): static
     {
         $this->options = $options;
+
+        return $this;
+    }
+
+    public function display(string $display): static
+    {
+        $this->display = $display;
 
         return $this;
     }
@@ -95,7 +103,7 @@ class Filter
     {
         $filter = static::fromConfiguration($key, $label);
 
-        return $filter->type('checkbox')->options($options ?? $filter->options);
+        return $filter->type('checkbox')->display('dropdown')->options($options ?? $filter->options);
     }
 
     protected static function fromConfiguration(string $key, string|array|null $label = null): static
@@ -105,6 +113,7 @@ class Filter
                 key: $key,
                 label: $label['label'] ?? null,
                 type: $label['type'] ?? 'select',
+                display: $label['display'] ?? (($label['type'] ?? 'select') === 'checkbox' ? 'dropdown' : 'inline'),
                 options: $label['options'] ?? [],
                 default: $label['default'] ?? null,
                 placeholder: $label['placeholder'] ?? '',

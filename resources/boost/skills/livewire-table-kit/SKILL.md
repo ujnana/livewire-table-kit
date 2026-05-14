@@ -19,7 +19,7 @@ Use this skill when developing or maintaining the `unlab/livewire-table-kit` pac
 ### Core Components
 - **BaseTable**: The foundation for all table components. Handles pagination, sorting, searching, and exports.
 - **Columns**: Fluent API for column definition (`Column`, `BadgeColumn`, `ActionColumn`).
-- **Filters**: Declarative filter API (`Filter::select`, `text`, `date`, `number`).
+- **Filters**: Declarative filter API (`Filter::select`, `radio`, `checkbox`, `text`, `date`, `number`) plus toolbar display modes such as `display('inline')` and `display('dropdown')`.
 - **Exports**: Opt-in system for CSV, XLSX (Maatwebsite), and PDF (DomPDF).
 
 ### Conventions
@@ -35,7 +35,14 @@ When adding features to `BaseTable`:
 - Update `BaseTable.php` with new logic/hooks.
 - If it's a visual change, update `resources/views/livewire/components/tables/base-table.blade.php`.
 - Ensure consistency with `BadgeColumn` and `ActionColumn`.
+- If the feature changes filter behavior, keep `src/Livewire/Components/Tables/Filters/Filter.php`, `README.md`, and `docs/filters.md` in sync.
 - Update tests in `tests/Feature`.
+
+### Filter Behavior Notes
+- **Single-value filters**: `select`, `radio`, `text`, `date`, and `number` resolve to a single filter value.
+- **Multi-value filters**: `checkbox` resolves to an array of selected values and should stay aligned with `whereIn`-style behavior in `BaseTable`.
+- **Reset labels**: `placeholder()` is used as the reset or "all" label for `select` and `radio` filters.
+- **Display modes**: keep filter query semantics separate from toolbar presentation; use `display('dropdown')` when wide option sets would crowd the table toolbar.
 
 ### 2. Modifying the Generator
 When updating `livewire-table-kit:make-table`:

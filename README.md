@@ -153,7 +153,8 @@ class UsersTable extends BaseTable
             Filter::radio('status', 'Status', [
                 'active' => 'Active',
                 'inactive' => 'Inactive',
-            ])->placeholder('All statuses'),
+            ])->placeholder('All statuses')
+                ->display('dropdown'),
 
             Filter::checkbox('department', 'Departments', [
                 'engineering' => 'Engineering',
@@ -220,7 +221,17 @@ Available colors: `primary`, `success`, `warning`, `danger`, `default`.
 - `Filter::number(key, label, placeholder)`
 
 For `select` and `radio` filters, `placeholder()` is used as the label for the reset or "all" option.
-Checkbox filters are multi-select and apply a `whereIn`-style match by default.
+Checkbox filters are multi-select, render inside a dropdown in the default toolbar UI, and apply a `whereIn`-style match by default.
+Option-based filters can also control their toolbar presentation with `->display('inline')` or `->display('dropdown')`.
+
+At the table level, you can collapse the entire filter set into a single dropdown trigger:
+
+```php
+protected function filterToolbarMode(): string
+{
+    return 'dropdown';
+}
+```
 
 ### Events
 
