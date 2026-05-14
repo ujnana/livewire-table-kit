@@ -1,6 +1,6 @@
 ---
-name: livewire-table-kit
-description: Senior engineer workflow for Unlab Livewire Table Kit package development. Use for source edits, generator logic, AI skills, and documentation.
+name: "livewire-table-kit"
+description: "Senior engineer workflow for Unlab Livewire Table Kit package development. Use for source edits, generator logic, AI skills, and documentation."
 ---
 
 # Livewire Table Kit
