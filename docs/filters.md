@@ -39,7 +39,18 @@ Creates a simple text input.
 Filter::text('search_name', 'Name search', 'Enter a name...')
 ```
 
-### 3. `Filter::date(key, label)`
+### 3. `Filter::radio(key, label, options)`
+
+Creates a radio group for mutually exclusive filter options.
+
+```php
+Filter::radio('status', 'Status', [
+    'active' => 'Active',
+    'inactive' => 'Inactive',
+])->placeholder('All statuses')
+```
+
+### 4. `Filter::date(key, label)`
 
 Creates a date input for filtering date-based fields.
 
@@ -47,7 +58,7 @@ Creates a date input for filtering date-based fields.
 Filter::date('created_at', 'Registered After')
 ```
 
-### 4. `Filter::number(key, label, placeholder)`
+### 5. `Filter::number(key, label, placeholder)`
 
 Creates a numeric input for filtering numeric fields.
 
@@ -90,4 +101,13 @@ Customize the placeholder text:
 
 ```php
 Filter::text('search', 'Search')->placeholder('Search everything...')
+```
+
+For `select` and `radio` filters, the placeholder is used as the reset option label:
+
+```php
+Filter::radio('status', 'Status', [
+    'active' => 'Active',
+    'inactive' => 'Inactive',
+])->placeholder('All statuses')
 ```

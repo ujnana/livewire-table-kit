@@ -32,6 +32,13 @@
                                 <flux:select.option value="{{ $value }}">{{ $label }}</flux:select.option>
                             @endforeach
                         </flux:select>
+                    @elseif ($filter->type === 'radio')
+                        <flux:radio.group wire:model.live="filters.{{ $filter->key }}" class="gap-2">
+                            <flux:radio value="" label="{{ $filter->placeholder !== '' ? $filter->placeholder : 'All' }}" />
+                            @foreach ($filter->options as $value => $label)
+                                <flux:radio value="{{ $value }}" label="{{ $label }}" />
+                            @endforeach
+                        </flux:radio.group>
                     @else
                         <flux:input size="sm"
                                     :type="$filter->type"

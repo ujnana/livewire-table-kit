@@ -4,6 +4,23 @@ All notable changes to `unlab/livewire-table-kit` will be documented in this fil
 
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and this project aims to follow [Semantic Versioning](https://semver.org/).
 
+## [Unreleased]
+
+### Added
+- **Radio Filters**: Added `Filter::radio()` as a first-class filter type for mutually exclusive options, alongside the existing select, text, date, and number filters.
+
+### Improved
+- **Filter UI Rendering**: Table filter rendering now supports Flux radio groups with a reset option driven by `placeholder()`.
+- **Filter Documentation & Coverage**: Documented radio-filter usage and added focused test coverage for the new filter helper.
+
+## [1.3.1] - 2026-05-14
+
+### Fixed
+- **AI Skill Front Matter Compatibility**: Quoted the `name` and `description` values in the packaged `SKILL.md` front matter to avoid YAML parsing failures in stricter skill loaders after installation.
+
+### Tests
+- **Skill Install Coverage**: Added assertions to verify the installed skill file preserves the hardened YAML front matter format.
+
 ## [1.3.0] - 2026-04-18
 
 ### Added
