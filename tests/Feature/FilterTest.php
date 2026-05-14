@@ -20,3 +20,21 @@ it('creates a radio filter helper with the expected type and options', function 
     expect($filter->default)->toBe('active');
     expect($filter->placeholder)->toBe('All statuses');
 });
+
+it('creates a checkbox filter helper with the expected type and options', function (): void {
+    $filter = Filter::checkbox('status', 'Statuses', [
+        'active' => 'Active',
+        'pending' => 'Pending',
+        'inactive' => 'Inactive',
+    ])->default(['active', 'pending']);
+
+    expect($filter->key)->toBe('status');
+    expect($filter->label)->toBe('Statuses');
+    expect($filter->type)->toBe('checkbox');
+    expect($filter->options)->toBe([
+        'active' => 'Active',
+        'pending' => 'Pending',
+        'inactive' => 'Inactive',
+    ]);
+    expect($filter->default)->toBe(['active', 'pending']);
+});

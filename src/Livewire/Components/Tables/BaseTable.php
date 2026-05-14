@@ -505,12 +505,18 @@ abstract class BaseTable extends Component
         foreach ($this->filters() as $filter) {
             $value = $this->filters[$filter->key] ?? null;
 
-            if ($value === null || $value === '') {
+            if ($value === null || $value === '' || (is_array($value) && $value === [])) {
                 continue;
             }
 
             if ($filter->queryCallback instanceof Closure) {
                 ($filter->queryCallback)($query, $value, $filter);
+
+                continue;
+            }
+
+            if (is_array($value)) {
+                $query->whereIn($filter->key, $value);
 
                 continue;
             }
@@ -571,7 +577,7 @@ abstract class BaseTable extends Component
         foreach ($this->filters() as $filter) {
             $value = $this->filters[$filter->key] ?? null;
 
-            if ($value === null || $value === '') {
+            if ($value === null || $value === '' || (is_array($value) && $value === [])) {
                 continue;
             }
 
@@ -581,6 +587,12 @@ abstract class BaseTable extends Component
                 if ($result instanceof EloquentCollection) {
                     $rows = $result;
                 }
+
+                continue;
+            }
+
+            if (is_array($value)) {
+                $rows = $rows->filter(static fn (mixed $row): bool => in_array(data_get($row, $filter->key), $value, false));
 
                 continue;
             }

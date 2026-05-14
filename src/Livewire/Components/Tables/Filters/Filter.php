@@ -11,7 +11,7 @@ class Filter
     public function __construct(
         public string $key,
         public ?string $label = null,
-        public string $type = 'select', // select, radio, text, date, number
+        public string $type = 'select', // select, radio, checkbox, text, date, number
         public array $options = [],
         public mixed $default = null,
         public string $placeholder = '',
@@ -89,6 +89,13 @@ class Filter
         $filter = static::fromConfiguration($key, $label);
 
         return $filter->type('radio')->options($options ?? $filter->options);
+    }
+
+    public static function checkbox(string $key, string|array|null $label = null, ?array $options = null): static
+    {
+        $filter = static::fromConfiguration($key, $label);
+
+        return $filter->type('checkbox')->options($options ?? $filter->options);
     }
 
     protected static function fromConfiguration(string $key, string|array|null $label = null): static

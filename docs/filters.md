@@ -50,7 +50,21 @@ Filter::radio('status', 'Status', [
 ])->placeholder('All statuses')
 ```
 
-### 4. `Filter::date(key, label)`
+### 4. `Filter::checkbox(key, label, options)`
+
+Creates a checkbox group for multi-select filters.
+
+```php
+Filter::checkbox('status', 'Statuses', [
+    'active' => 'Active',
+    'pending' => 'Pending',
+    'inactive' => 'Inactive',
+])
+```
+
+By default, checkbox filters apply a `whereIn($key, $selectedValues)` style filter when used against an Eloquent query.
+
+### 5. `Filter::date(key, label)`
 
 Creates a date input for filtering date-based fields.
 
@@ -58,7 +72,7 @@ Creates a date input for filtering date-based fields.
 Filter::date('created_at', 'Registered After')
 ```
 
-### 5. `Filter::number(key, label, placeholder)`
+### 6. `Filter::number(key, label, placeholder)`
 
 Creates a numeric input for filtering numeric fields.
 

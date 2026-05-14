@@ -39,6 +39,12 @@
                                 <flux:radio value="{{ $value }}" label="{{ $label }}" />
                             @endforeach
                         </flux:radio.group>
+                    @elseif ($filter->type === 'checkbox')
+                        <flux:checkbox.group wire:model.live="filters.{{ $filter->key }}" class="flex-col gap-2">
+                            @foreach ($filter->options as $value => $label)
+                                <flux:checkbox value="{{ $value }}" label="{{ $label }}" />
+                            @endforeach
+                        </flux:checkbox.group>
                     @else
                         <flux:input size="sm"
                                     :type="$filter->type"

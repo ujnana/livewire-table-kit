@@ -149,6 +149,17 @@ class UsersTable extends BaseTable
                 'admin' => 'Administrator',
                 'user' => 'User',
             ]),
+
+            Filter::radio('status', 'Status', [
+                'active' => 'Active',
+                'inactive' => 'Inactive',
+            ])->placeholder('All statuses'),
+
+            Filter::checkbox('department', 'Departments', [
+                'engineering' => 'Engineering',
+                'product' => 'Product',
+                'support' => 'Support',
+            ]),
             
             Filter::date('created_at', 'Created After'),
             
@@ -202,9 +213,14 @@ Available colors: `primary`, `success`, `warning`, `danger`, `default`.
 ### Filter Types
 
 - `Filter::select(key, label, options)`
+- `Filter::radio(key, label, options)`
+- `Filter::checkbox(key, label, options)`
 - `Filter::text(key, label, placeholder)`
 - `Filter::date(key, label)`
 - `Filter::number(key, label, placeholder)`
+
+For `select` and `radio` filters, `placeholder()` is used as the label for the reset or "all" option.
+Checkbox filters are multi-select and apply a `whereIn`-style match by default.
 
 ### Events
 
